@@ -3,35 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <title>Estoque</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
     <h1>Estoque de Produtos</h1>
 
     <div class="actions-container">
-        <button class="add-btn">➕ Adicionar Produto</button>
+        {% if produto_edit %}
+            <!-- Formulário de Edição -->
+            <form action="{{ url_for('editar', id=produto_edit[0]) }}" method="POST" class="add-form">
+                <input type="text" name="tipo" value="{{ produto_edit[1] }}" required>
+                <input type="text" name="nome" value="{{ produto_edit[2] }}" required>
+                <input type="number" name="quantidade" value="{{ produto_edit[3] }}" min="1" required>
+                <input type="number" step="0.01" name="preco" value="{{ produto_edit[4] }}" required>
+                <button type="submit" class="add-btn">💾 Salvar Alterações</button>
+                <a href="{{ url_for('index') }}" class="cancel-btn">✖ Cancelar</a>
+            </form>
+        {% else %}
+            <!-- Formulário de Adição -->
+            <form action="{{ url_for('adicionar') }}" method="POST" class="add-form">
+                <input type="text" name="tipo" placeholder="Tipo" required>
+                <input type="text" name="nome" placeholder="Nome" required>
+                <input type="number" name="quantidade" placeholder="Quantidade" min="1" required>
+                <input type="number" step="0.01" name="preco" placeholder="Preço" required>
+                <button type="submit" class="add-btn">➕ Adicionar Produto</button>
+            </form>
+        {% endif %}
     </div>
 
-    <table>
-        <tr>
-            <th>COD</th>
-            <th>Tipo</th>
-            <th>Nome</th>
-            <th>Quantidade</th>
-            <th>Preço un</th>
-            <th>Ações</th>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>Produto Venda</td>
-            <td>Produto1</td>
-            <td>10</td>
-            <td>25.50</td>
-            <td>
-                <button class="edit-btn">✏️ Editar</button>
-                <button class="remove-btn">🗑️ Remover</button>
-            </td>
-        </tr>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>COD</th>
+                <th>Tipo</th>
+                <th>Nome</th>
+                <th>Quantidade</th>
+                <th>Preço un</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produto in produtos %}
+            <tr>
+                <td>{{ produto[0] }}</td>
+                <td>{{ produto[1] }}</td>
+                <td>{{ produto[2] }}</td>
+                <td>{{ produto[3] }}</td>
+                <td>{{ produto[4] }}</td>
+                <td>
+                    <a href="{{ url_for('remover', id=produto[0]) }}" class="remove-btn">🗑️ Remover</a>
+                    <a href="{{ url_for('editar', id=produto[0]) }}" class="edit-btn">✏️ Editar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
 </body>
 </html>

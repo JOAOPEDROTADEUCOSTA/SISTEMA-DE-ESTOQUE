@@ -42,3 +42,19 @@ def remove_produto(produto_id):
     cur.execute("DELETE FROM produtos WHERE id=?", (produto_id,))
     conn.commit()
     conn.close()
+
+def get_produto(produto_id):
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM produtos WHERE id=?", (produto_id,))
+    produto = cur.fetchone()
+    conn.close()
+    return produto
+
+def update_produto(produto_id, tipo, nome, quantidade, preco):
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("UPDATE produtos SET tipo=?, nome=?, quantidade=?, preco=? WHERE id=?",
+                (tipo, nome, quantidade, preco, produto_id))
+    conn.commit()
+    conn.close()
