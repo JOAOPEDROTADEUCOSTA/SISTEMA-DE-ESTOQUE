@@ -42,5 +42,9 @@ def editar(id):
     produto = database.get_produto(id)
     return render_template("editar.html", produto=produto)
 
+@app.template_filter("brl")
+def format_brl(value):
+    return f"R$ {value:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+
 if __name__ == "__main__":
     app.run(debug=True)

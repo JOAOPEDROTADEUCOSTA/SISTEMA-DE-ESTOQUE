@@ -49,7 +49,7 @@
                 <td>{{ produto[1] }}</td>
                 <td>{{ produto[2] }}</td>
                 <td>{{ produto[3] }}</td>
-                <td>{{ produto[4] }}</td>
+                <td>{{ produto[4]|brl }}</td>
                 <td>
                     <a href="{{ url_for('remover', id=produto[0]) }}" class="remove-btn">🗑️ Remover</a>
                     <a href="{{ url_for('editar', id=produto[0]) }}" class="edit-btn">✏️ Editar</a>
